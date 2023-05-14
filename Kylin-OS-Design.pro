@@ -18,16 +18,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    pcb.cpp
+    pcb.cpp \
+    processitem.cpp
 
 HEADERS += \
     mainwindow.h \
-    pcb.h
+    pcb.h \
+    processitem.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    processitem.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    A.qml \
+    AForm.ui.qml

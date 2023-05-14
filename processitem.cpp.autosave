@@ -1,0 +1,24 @@
+#include "processitem.h"
+#include "ui_processitem.h"
+
+ProcessItem::ProcessItem(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::ProcessItem)
+{
+    ui->setupUi(this);
+}
+
+ProcessItem::~ProcessItem()
+{
+    delete ui;
+}
+
+void ProcessItem::on_btn_suspend_clicked()
+{
+    
+}
+
+void ProcessItem::on_btn_unsuspend_clicked()
+{
+    
+}
