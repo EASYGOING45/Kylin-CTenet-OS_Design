@@ -16,19 +16,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addprocess.cpp \
+    choosealgo.cpp \
     main.cpp \
     mainwindow.cpp \
     pcb.cpp \
-    processitem.cpp
+    processitem.cpp \
+    processschedule.cpp
 
 HEADERS += \
+    addprocess.h \
+    choosealgo.h \
     mainwindow.h \
     pcb.h \
-    processitem.h
+    processitem.h \
+    processschedule.h
 
 FORMS += \
+    addprocess.ui \
+    choosealgo.ui \
     mainwindow.ui \
-    processitem.ui
+    processitem.ui \
+    processschedule.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -38,3 +47,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     A.qml \
     AForm.ui.qml
+
+RESOURCES += \
+    resource.qrc

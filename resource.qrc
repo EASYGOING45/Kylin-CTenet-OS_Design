@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>allqss.qss</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>images/bgi7.jpg</file>
+        <file>images/choose1.jpg</file>
+        <file>images/widget1.jpg</file>
+        <file>images/widget2.jpg</file>
+        <file>images/widget3.jpg</file>
+    </qresource>
+</RCC>

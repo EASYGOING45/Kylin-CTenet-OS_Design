@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>532</width>
-    <height>434</height>
+    <width>348</width>
+    <height>54</height>
    </rect>
   </property>
   <property name="font">
@@ -21,10 +21,10 @@
   <widget class="QProgressBar" name="progressBar">
    <property name="geometry">
     <rect>
-     <x>-10</x>
-     <y>40</y>
+     <x>0</x>
+     <y>20</y>
      <width>351</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="value">
@@ -37,7 +37,7 @@
      <x>0</x>
      <y>0</y>
      <width>241</width>
-     <height>41</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -47,7 +47,7 @@
      <x>250</x>
      <y>0</y>
      <width>71</width>
-     <height>41</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
@@ -57,10 +57,10 @@
   <widget class="QPushButton" name="btn_suspend">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>250</x>
      <y>0</y>
      <width>71</width>
-     <height>41</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">

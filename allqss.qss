@@ -1,0 +1,53 @@
+
+/**正常情况下样式**/
+QPushButton{
+    font: 13pt "微软雅黑";
+    color: #2f3640;
+    background-color: #f5f6fa;
+    border-color: #2f3640;
+    border-radius: 16px;
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px;
+}
+
+/**鼠标停留在按钮上的样式**/
+QPushButton::hover{
+    color: #FFFFFF;
+    background-color: #718093;
+    border-color: #2f3640;
+}
+
+/**鼠标按压下去的样式**/
+QPushButton::pressed,QPushButton::checked{
+    color: #FFFFFF;
+    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #273c75, stop:1 #487eb0);
+}
+
+/**按钮失能情况下样式**/
+QPushButton::disabled{
+    color: grey;
+    background-color: #dcdde1;
+    border-color: #dcdde1;
+}
+
+
+QProgressBar
+{
+    border: 2px solid grey; //边界色
+    border-radius: 5px; //边界圆滑
+    text-align: center; //文字居中
+}
+
+QProgressBar::chunk{
+
+    background-color: #CD96CD; //背景色
+    width: 10px; //宽度
+    margin: 0.5px; //页边距
+}
+
+QListWidget
+{
+    background-color: rgba(255, 255, 255, 80%);
+
+}
