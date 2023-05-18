@@ -39,6 +39,9 @@ ProcessSchedule::ProcessSchedule(QWidget *parent) : QWidget(parent),
     myTimer_SF = new QTimer(this); // 创建定时器 短作业优先算法
     connect(myTimer_SF, SIGNAL(timeout()), this, SLOT(refreshProcs_SF()));
 
+    myTimer_HPF=new QTimer(this);   //高优先权优先算法的定时器
+    connect(myTimer_HPF,SIGNAL(timeout()),this,SLOT(refreshProcs_HPF()));
+
     // 时间片轮转算法
     myTimer_RR = new QTimer(this);
     connect(myTimer_RR, SIGNAL(timeout()), this, SLOT(refreshProcs_RR()));
@@ -49,6 +52,7 @@ ProcessSchedule::~ProcessSchedule()
     delete ui;
 }
 
+//待修改重构
 void ProcessSchedule::receiveSF()
 {
     type = 1;
@@ -72,8 +76,40 @@ void ProcessSchedule::receiveSF()
         }
     }
 
-    // 若选择短作业优先调度，则给就绪队列数组排序
-    bubbleSort(ready);
+    // 若选择短作业优先调度，则给就绪队列数组排序 按照作业所需时间长短进行排序
+    bubbleSort_runtime(ready);
+    // 刷新就绪队列界面
+    readyToUi();
+    // 刷新后备队列ui界面
+    backupToUi();
+}
+
+void ProcessSchedule::receiveHPF()
+{
+    //高优先权优先算法
+    type = 1;
+    ui->lab_type->setText("高优先权优先算法-HPF");
+
+    chooseAlgo->close();
+
+    // 向就绪队列数组中传最多道数个数组
+    for (; processNum < NUM_OF_PROCESS; processNum++)
+    {
+        if (backup[0].getPriority() == 0)
+        {
+            qDebug() << "后备队列第0个数据为空";
+            break;
+        }
+        else
+        {
+            ready[processNum] = backup[0];
+            // 删除后备队列数组中的第一条数据
+            delFirstOfBackup();
+        }
+    }
+
+    // 若选择高优先权优先调度，则给就绪队列数组排序  按照优先权高低进行排序
+    bubbleSort_priority(ready);
     // 刷新就绪队列界面
     readyToUi();
     // 刷新后备队列ui界面
@@ -83,6 +119,33 @@ void ProcessSchedule::receiveSF()
 // 待完成
 void ProcessSchedule::receiveRR()
 {
+    //RR时间片轮转算法
+    type = 2;   //各个算法的标识
+    ui->lab_type->setText("时间片轮转调度-RR");
+
+    chooseAlgo->close();        //关闭算法选择页面
+
+    //向就绪进程队列中传入最多道数个进程
+    for(;processNum<NUM_OF_PROCESS;processNum++)
+    {
+        //按照顺序传入进程数据
+        if(backup[0].getPriority()==0)
+        {
+            qDebug()<<"后备队列中第0个数据为空值";
+            break;
+        }
+        else
+        {
+            ready[processNum]=backup[0];
+            //删除后备队列数组中的第一条数据
+            delFirstOfBackup();
+        }
+    }
+
+    //刷新就绪队列界面
+    readyToUi();
+    //刷新后备队列UI界面
+    backupToUi();
 }
 
 void ProcessSchedule::initReadyArray()
@@ -157,8 +220,11 @@ void ProcessSchedule::on_btn_choose_clicked()
         // 建立连接chooseAlgo中的短作业优先算法与计时器的信号与槽 槽函数机制非常的巧妙
         connect(chooseAlgo->ui->btn_SF, SIGNAL(clicked()), this, SLOT(receiveSF()));
 
+        //建立连接信号槽
+        connect(chooseAlgo->ui->btn_HPF,SIGNAL(clicked()),this,SLOT(receiveHPF()));
+
         // 建立连接chooseAlgo中的时间片轮转算法与计时器的信号与槽
-        connect(chooseAlgo->ui->btn_RR,SIGNAL(cliecked()),this,SLOT(receiveRR()));
+        connect(chooseAlgo->ui->btn_RR,SIGNAL(clicked()),this,SLOT(receiveRR()));
     }
 
     // 向就绪队列数组中传最多六个进程
@@ -178,12 +244,14 @@ void ProcessSchedule::on_btn_choose_clicked()
         }
     }
 
-    // 若选择短作业优先调度，则给就绪队列数组排序
+    // 若选择高优先权优先调度，则给就绪队列数组排序
     if (type == 1)
     {
-        bubbleSort(ready);
+        bubbleSort_priority(ready);
         readyToUi();
     }
+
+    //通过不同的type标识不同的调度算法，并进行相应的预处理操作
 
     // 刷新就绪队列界面
     readyToUi();
@@ -197,11 +265,11 @@ void ProcessSchedule::on_btn_start_clicked()
     ui->lab_type->setText("调度中......");
     ui->btn_start->setEnabled(false);
 
-    // 若选择短作业优先算法
+    // 若选择高优先权优先算法
     if (type == 1)
     {
         // 计时器开始计时，频率为1000ms=1s
-        myTimer_SF->start(1000);
+        myTimer_HPF->start(1000);
 
         // 取就绪队列中的第一条数据，放入CPU调度中
         firstOfReadyToRunningUi();
@@ -210,8 +278,20 @@ void ProcessSchedule::on_btn_start_clicked()
         // 刷新就绪队列的ui界面
         readyToUi();
     }
+    else if(type==2)
+    {
+        //若选择RR时间片轮转算法 时间片为1000ms = 1s
+        myTimer_RR->start(1000);
 
-    // 未完成
+        //取就绪队列中的第一条数据，放入CPU中进行调度
+        firstOfReadyToRunningUi();
+        //删除就绪队列中的第一条数据
+        delFirstOfReady();
+        //刷新就绪队列的UI界面
+        readyToUi();
+    }
+
+    // 未完成 后续算法
 }
 
 void ProcessSchedule::on_btn_pause_clicked()
@@ -248,7 +328,7 @@ void ProcessSchedule::on_btn_reset_clicked()
     ui->lab_CPUScheInfo->setText("CPU调度");
     ui->lab_type->setText("调度方式");
     if (type == 1)
-        myTimer_SF->stop();
+        myTimer_HPF->stop();
     if (type == 2)
         myTimer_RR->stop();
     // 初始化所有变量
@@ -271,8 +351,89 @@ void ProcessSchedule::on_btn_reset_clicked()
     ui->suspendQue->clear();
 }
 
+//待更正
 // SF调度算法槽函数刷新就绪队列中数据的优先级、运行时间
 void ProcessSchedule::refreshProcs_SF()
+{
+//    ui->lab_CPUScheInfo->setText("调度中......");
+
+//    // 取运行进程的优先级、就绪队列第一个进程的优先级
+//    priority_run = runningProcs->getPriority();
+//    priority_ready1st = ready[0].getPriority();
+
+//    // 如果内存中进程数未达到道数上限且后备队列第一条数据不为空，则自动从后备队列中添加进程
+//    if (backup[0].getPriority() != 0)
+//    {
+//        for (; processNum < NUM_OF_PROCESS;)
+//        {
+//            if (backup[0].getPriority() == 0)
+//            {
+//                break; // 后备队列第一条数据为空，跳出循环
+//            }
+
+//            firstOfBackToReady(); // 将后备队列的第一条数据加入到就绪队列
+//            delFirstOfBackup();   // 删除后备队列的第一条数据
+//            backupToUi();         // 刷新后备队列的ui界面
+//        }
+//    }
+
+//    // 进程抢占：当就绪队列的第一条数据的优先级大于运行进程时发生抢占现象
+//    if (priority_ready1st > priority_run)
+//    {
+//        ui->lab_CPUScheInfo->setText("进程抢占中......");
+
+//        // 被抢占的进程重新加入就绪队列
+//        runningToReady();
+//        // 就绪队列的第一个进程加入运行队列
+//        firstOfReadyToRunningUi();
+//        runningToUi(); // 刷新运行进程的ui界面
+
+//        // 在就绪队列中删除第一个进程
+//        delFirstOfReady();
+//        readyToUi();
+//        // 对就绪队列进行排序，更新界面
+//        bubbleSort_priority(ready);
+//        readyToUi();
+//    }
+
+//    // 运行进程的运行时间减1，优先级-1，运行时间为0时修改状态，输出在进程信息TableWidget中
+//    if (runningProcs->getPriority() != 0 && runningProcs->getRuntime() - 1 != 0)
+//    {
+//        runningProcs->delPriority(1);
+//        runningProcs->delRuntime(1);
+
+//        // 刷新UI界面上的运行调度界面
+//        runningToUi();
+//    }
+//    else
+//    {
+//        runningProcs->setStatus("终止");
+//        // 在进程调度信息处输出终止进程的信息
+//        finishToInfo();
+//        // 就绪队列第一个进程加入RunningProcs中
+//        firstOfReadyToRunningUi();
+//        // 在就绪队列中删除该条信息
+//        delFirstOfReady();
+
+//        // 给就绪进程数组重新排序
+//        bubbleSort_priority(ready);
+//        // 刷新就绪列表ui界面
+//        readyToUi();
+//    }
+
+//    // 就绪队列中等待的进程的优先级+1
+//    for (int i = 0; i < NUM_OF_PROCESS && ready[i].getPriority() != 0; i++)
+//    {
+//        ready[i].addPriority(1);
+//    }
+//    // 刷新就绪列表ui界面
+//    readyToUi();
+//    // 刷新挂起列表ui界面
+//    suspendToUi();
+}
+
+//
+void ProcessSchedule::refreshProcs_HPF()
 {
     ui->lab_CPUScheInfo->setText("调度中......");
 
@@ -311,7 +472,7 @@ void ProcessSchedule::refreshProcs_SF()
         delFirstOfReady();
         readyToUi();
         // 对就绪队列进行排序，更新界面
-        bubbleSort(ready);
+        bubbleSort_priority(ready);
         readyToUi();
     }
 
@@ -335,7 +496,7 @@ void ProcessSchedule::refreshProcs_SF()
         delFirstOfReady();
 
         // 给就绪进程数组重新排序
-        bubbleSort(ready);
+        bubbleSort_priority(ready);
         // 刷新就绪列表ui界面
         readyToUi();
     }
@@ -350,14 +511,80 @@ void ProcessSchedule::refreshProcs_SF()
     // 刷新挂起列表ui界面
     suspendToUi();
 }
-
 // 待完成
 void ProcessSchedule::refreshProcs_RR()
 {
+    //RR时间片轮转
+    ui->lab_CPUScheInfo->setText("调度中...");
+    //如果内存中进程数不超过最大道数且后备队列第一条数据不为空，则自动从后备队列中添加进程
+    if(backup[0].getPriority()!=0)
+    {
+        for(;processNum<NUM_OF_PROCESS;)
+        {
+            if(backup[0].getPriority()==0)
+            {
+                break;
+            }
+            firstOfBackToReady();
+            delFirstOfBackup();
+            backupToUi();
+            readyToUi();
+        }
+    }
+
+    //每隔1s调用一次refreshProcs_RR函数，运行中进程运行时间一次-1，时间片为3
+    if(sliceTime<TIMESLICE)
+    {
+        if(runningProcs->getRuntime()-1==0)
+        {
+            //进程终止后
+            runningProcs->setStatus("终止");
+            //在进程调度信息处输出终止进程的信息
+            finishToInfo();
+            //就绪队列第一个进程加入RunningProcs中
+            firstOfReadyToRunningUi();
+            //在就绪队列中删除第一条信息
+            delFirstOfReady();
+            //刷新就绪列表UI界面
+            readyToUi();
+        }
+
+        sliceTime++;
+        runningProcs->delRuntime(1);
+        //刷新UI界面上的运行调度UI界面
+        runningToUi();
+    }else{
+        //一次时间片之后，进程仍未结束，则将该进程重新加入到就绪队列的最后一条
+        //将运行的进程加入到就绪队列的最后一条
+        runningToReady();
+        //就绪队列第一条进程进入运行列表
+        firstOfReadyToRunningUi();
+        //删除就绪队列第一条数据
+        delFirstOfReady();
+        //刷新就绪队列UI界面
+        readyToUi();
+        sliceTime=0;
+    }
 }
 
 // 将就绪队列中的进程按照优先级进行降序排序
-void ProcessSchedule::bubbleSort(PCB *array)
+void ProcessSchedule::bubbleSort_priority(PCB *array)
+{
+    for (int i = 0; i < NUM_OF_PROCESS - 1; i++)
+    {
+        for (int j = 0; j < NUM_OF_PROCESS - i - 1; j++)
+        {
+            if (array[j].getPriority() < array[j + 1].getPriority())
+            {
+                PCB temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+            }
+        }
+    }
+}
+
+void ProcessSchedule::bubbleSort_runtime(PCB *array)
 {
     for (int i = 0; i < NUM_OF_PROCESS - 1; i++)
     {
@@ -588,7 +815,7 @@ void ProcessSchedule::receiveReadyToSuspend(QString PID)
 // 阻塞进程的槽函数（运行进程）
 void ProcessSchedule::receiveRunningToSuspend(QString PID)
 {
-    qDebug() << "receiveRunningToSuspend...";
+    qDebug() << "receiveRunningToSuspend..."<<PID;
 
     // 将运行进程加入挂起队列
     workToSuspend(*runningProcs);
@@ -615,7 +842,7 @@ void ProcessSchedule::receiveSuspendToReady(QString PID)
             // 将被解挂的进程加入就绪队列
             suspendToReady(suspend[i]);
             // 给就绪数组排序
-            bubbleSort(ready);
+            bubbleSort_priority(ready);
             // 更新就绪队列的ui界面
             readyToUi();
             // 删除挂起队列中的该进程

@@ -42,7 +42,8 @@ public:
     void suspendToReady(PCB pcb);
 
     void runningToReady();        // 将运行中的进程重新加入就绪队列（进程被抢占）
-    void bubbleSort(PCB array[]); // 给数组排序
+    void bubbleSort_priority(PCB array[]); // 给数组排序
+    void bubbleSort_runtime(PCB array[]);
 
     void readyToUi();   // 更新就绪队列的UI
     void backupToUi();  // 更新后备队列的UI
@@ -55,10 +56,10 @@ public:
 private slots:
     void receiveSF();                                                        // 短作业优先
     void receiveRR();                                                        // 时间片轮转
-    //void receiveHPF();                                                       // 高优先级优先
+    void receiveHPF();                                                       // 高优先级优先
     void refreshProcs_SF();                                                  // 短作业优先算法计时槽函数
     void refreshProcs_RR();                                                  // 时间片轮转算法计时槽函数
-    //void refreshProcs_HPF();                                                 // 高优先级先算法计时槽函数
+    void refreshProcs_HPF();                                                 // 高优先级先算法计时槽函数
     void receiveSuspendToReady(QString);                                     // 解除阻塞进程的槽函数
     void receiveReadyToSuspend(QString);                                     // 阻塞进程的槽函数（就绪进程）
     void receiveRunningToSuspend(QString);                                   // 阻塞进程的槽函数（运行进程）
