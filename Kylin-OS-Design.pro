@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     addprocess.cpp \
     choosealgo.cpp \
+    jobschedule.cpp \
     main.cpp \
     mainwindow.cpp \
     pcb.cpp \
@@ -27,8 +28,10 @@ SOURCES += \
 HEADERS += \
     addprocess.h \
     choosealgo.h \
+    jobschedule.h \
     mainwindow.h \
     pcb.h \
+    pcb_calculate.h \
     processitem.h \
     processschedule.h
 
