@@ -19,8 +19,10 @@ SOURCES += \
     addprocess.cpp \
     choosealgo.cpp \
     jobschedule.cpp \
+    jobschedule_widget.cpp \
     main.cpp \
     mainwindow.cpp \
+    osdesign.cpp \
     pcb.cpp \
     processitem.cpp \
     processschedule.cpp
@@ -29,7 +31,9 @@ HEADERS += \
     addprocess.h \
     choosealgo.h \
     jobschedule.h \
+    jobschedule_widget.h \
     mainwindow.h \
+    osdesign.h \
     pcb.h \
     pcb_calculate.h \
     processitem.h \
@@ -38,7 +42,9 @@ HEADERS += \
 FORMS += \
     addprocess.ui \
     choosealgo.ui \
+    jobschedule_widget.ui \
     mainwindow.ui \
+    osdesign.ui \
     processitem.ui \
     processschedule.ui
 

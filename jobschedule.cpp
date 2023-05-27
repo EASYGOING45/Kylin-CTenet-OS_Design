@@ -102,6 +102,7 @@ bool jobSchedule::addRandJobs()
         q=nullptr;
         delete q;
     }
+
 }
 
 void jobSchedule::initFlag()
