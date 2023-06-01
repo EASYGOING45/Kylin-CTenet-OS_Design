@@ -18,25 +18,37 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     addprocess.cpp \
     choosealgo.cpp \
+    disktrack.cpp \
+    fifo.cpp \
     jobschedule.cpp \
     jobschedule_widget.cpp \
+    lru.cpp \
     main.cpp \
     mainwindow.cpp \
+    opt.cpp \
     osdesign.cpp \
+    pagereplacement.cpp \
     pcb.cpp \
     processitem.cpp \
+    processmanager.cpp \
     processschedule.cpp
 
 HEADERS += \
     addprocess.h \
     choosealgo.h \
+    disktrack.h \
+    fifo.h \
     jobschedule.h \
     jobschedule_widget.h \
+    lru.h \
     mainwindow.h \
+    opt.h \
     osdesign.h \
+    pagereplacement.h \
     pcb.h \
     pcb_calculate.h \
     processitem.h \
+    processmanager.h \
     processschedule.h
 
 FORMS += \
@@ -45,7 +57,9 @@ FORMS += \
     jobschedule_widget.ui \
     mainwindow.ui \
     osdesign.ui \
+    pagereplacement.ui \
     processitem.ui \
+    processmanager.ui \
     processschedule.ui
 
 # Default rules for deployment.

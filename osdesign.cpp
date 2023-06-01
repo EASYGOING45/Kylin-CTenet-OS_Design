@@ -26,7 +26,7 @@ void OSDesign::on_ProcessScheduleBtn_clicked()
     //进入进程调度模拟页面
     this->page_process.setWindowTitle("进程调度可视化模拟");
     page_process.show();
-    this->hide();
+    //this->hide();
 }
 
 void OSDesign::on_JobScheduleBtn_clicked()
@@ -34,5 +34,25 @@ void OSDesign::on_JobScheduleBtn_clicked()
     //进入作业调度模拟页面
     this->page_job.setWindowTitle("作业调度算法衡量计算");
     page_job.show();
-    this->hide();
+    //this->hide();
+}
+
+void OSDesign::on_PageReplacementBtn_clicked()
+{
+    this->pageReplace.setWindowTitle("页面调度算法模拟");
+    pageReplace.show();
+    //this->hide();
+}
+
+void OSDesign::on_DiskScheduleBtn_clicked()
+{
+    this->pageDisk.setWindowTitle("磁道调度算法模拟");
+    pageDisk.show();
+    //this->hide();
+}
+
+void OSDesign::on_ProcessManagerBtn_clicked()
+{
+    this->processmana.setWindowTitle("进程管理器（Windows)");
+    processmana.show();
 }

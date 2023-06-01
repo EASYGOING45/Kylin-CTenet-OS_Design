@@ -60,6 +60,7 @@ private slots:
     void refreshProcs_SF();                                                  // 短作业优先算法计时槽函数
     void refreshProcs_RR();                                                  // 时间片轮转算法计时槽函数
     void refreshProcs_HPF();                                                 // 高优先级先算法计时槽函数
+
     void receiveSuspendToReady(QString);                                     // 解除阻塞进程的槽函数
     void receiveReadyToSuspend(QString);                                     // 阻塞进程的槽函数（就绪进程）
     void receiveRunningToSuspend(QString);                                   // 阻塞进程的槽函数（运行进程）

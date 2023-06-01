@@ -15,6 +15,16 @@ jobschedule_widget::jobschedule_widget(QWidget *parent) :
     ui(new Ui::jobschedule_widget)
 {
     ui->setupUi(this);
+
+    this->setAutoFillBackground(true); // 这句要加上, 否则可能显示不出背景图.
+    QPalette palette = this->palette();
+    palette.setBrush(QPalette::Window,
+       QBrush(QPixmap(":/images/images/back3.jpg").scaled( // 缩放背景图.
+       this->size(),
+       Qt::IgnoreAspectRatio,
+       Qt::SmoothTransformation))); // 使用平滑的缩放方式
+    this->setPalette(palette); // 至此, 已给widget加上了背景图.
+
 }
 
 jobschedule_widget::~jobschedule_widget()
@@ -40,28 +50,27 @@ void jobschedule_widget::displayJobs()
 //先来先服务算法 FCFS
 void jobschedule_widget::FCFS()
 {
-    ui->textBrowser_2->append("FCFS先来先服务算法：");
+    ui->textBrowser_2->append("FCFS:");
 
     int clock = 0;
     aturnaround = 0;
     aweightedturnaround = 0;
 
     bool non;
-    for(int i = 0;i<job.getJobLength();i++)
+    for (int i = 0; i < job.getJobLength(); i++)
     {
         non = false;
-        pcb_cal *p=new pcb_cal; //相当于工作指针 用于遍历链表
+        pcb_cal* p = new pcb_cal;           //用来遍历链表
 
-        pcb_cal *q=new pcb_cal; //q用来存放当前时刻已经到达且到达时间最早的作业节点
-        q->next = nullptr;
+        pcb_cal* q = new pcb_cal;            //q用来存放当前时刻已到达且到达时间最早的结点
+        q->next=nullptr;
 
-        p=job.jobHead->next;
-        q->arrive = 1000000;    //初始值设为最大数
-
-        //遍历寻找已经到达且到达时间更早的结点
-        while(p!=NULL)
+        p = job.jobHead->next;
+        q->arrive = 1000000;         //初始值设置为最大的数
+        //遍历寻找已到达且到达时间最早的结点
+        while (p != NULL)
         {
-            if(p->flag==0 && p->arrive <= q->arrive && (p->arrive<=clock))
+            if (p->flag ==0 && p->arrive <= q->arrive && (p->arrive <= clock))
             {
                 q = p;
                 non = true;
@@ -69,27 +78,25 @@ void jobschedule_widget::FCFS()
             p = p->next;
         }
 
-        //若没找到，说明当前时刻没有已经到达的作业
-        if(!non)
+        //若没找到，说明当前时刻没有已到达的进程
+        if (!non)
         {
             q->arrive = 1000000;
             q->next = nullptr;
-
             p = job.jobHead->next;
-            while(p!=NULL)
+            while (p != NULL)
             {
-                if(p->flag == 0 && p->arrive <= q->arrive)
+                if (p->flag== 0 && p->arrive <= q->arrive)
                 {
                     q = p;
                 }
-                p= p->next;
+                p = p->next;
             }
         }
 
-        if(i==0) clock = q->arrive;
-        if(!non) clock = q->arrive;
-
-        clock += q->service;
+        if(i==0) clock=q->arrive;
+        if(!non) clock=q->arrive;
+        clock+=q->service;
         q->finish=clock;
         q->turnaround=q->finish-q->arrive;
         aturnaround+=q->turnaround;
@@ -99,14 +106,16 @@ void jobschedule_widget::FCFS()
         ui->textBrowser_2->append("进程名："+QString::fromStdString(q->name)+
                                   " 到达时间："+QString::number(q->arrive)+
                                   " 服务时间："+QString::number(q->service));
+
         QTime time;
         time.start();
         while(time.elapsed() < 800)             //等待时间流逝0.8秒钟
             QCoreApplication::processEvents();   //处理事件
-        ui->textBrowser_2->append("平均周转时间："+QString::number(aturnaround / (1.0*job.getJobLength()))+
-                                  "  平均带权周转时间："+QString::number(aweightedturnaround / (1.0*job.getJobLength())));
-        job.initFlag();   //执行完FCFS算法后将flag标记都置为0
+
     }
+    ui->textBrowser_2->append("平均周转时间："+QString::number(aturnaround / (1.0*job.getJobLength()))+
+                              "  平均带权周转时间："+QString::number(aweightedturnaround / (1.0*job.getJobLength())));
+    job.initFlag();   //执行完FCFS算法后将flag标记都置为0
 }
 
 void jobschedule_widget::SF()
@@ -300,4 +309,9 @@ void jobschedule_widget::on_SF_Btn_clicked()
 void jobschedule_widget::on_HRN_Btn_clicked()
 {
     HRN();
+}
+
+void jobschedule_widget::on_Return_Btn_clicked()
+{
+
 }

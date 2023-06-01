@@ -20,7 +20,7 @@ public:
     void FCFS();        //先来先服务算法
     void SF();          //短作业优先算法
     void HRN();         //最高响应比优先算法
-
+    //OSDesign page;
 private slots:
     void on_addJobBtn_clicked();
 
@@ -33,6 +33,8 @@ private slots:
     void on_SF_Btn_clicked();
 
     void on_HRN_Btn_clicked();
+
+    void on_Return_Btn_clicked();
 
 private:
     Ui::jobschedule_widget *ui;
