@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>300</height>
+    <width>435</width>
+    <height>178</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>230</x>
+     <x>120</x>
      <y>10</y>
      <width>201</width>
      <height>81</height>
@@ -26,24 +26,11 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;请选择调度算法&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_FCFS">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>130</y>
-     <width>101</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>先来先服务</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btn_SF">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>130</y>
+     <x>160</x>
+     <y>180</y>
      <width>101</width>
      <height>61</height>
     </rect>
@@ -55,8 +42,8 @@
   <widget class="QPushButton" name="btn_HPF">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>130</y>
+     <x>60</x>
+     <y>100</y>
      <width>101</width>
      <height>61</height>
     </rect>
@@ -68,8 +55,8 @@
   <widget class="QPushButton" name="btn_RR">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>130</y>
+     <x>260</x>
+     <y>100</y>
      <width>101</width>
      <height>61</height>
     </rect>

@@ -46,7 +46,7 @@ QString ProcessItem::getSuspendPID()
 //点击阻塞按钮
 void ProcessItem::on_btn_suspend_clicked()
 {
-    emit sendWorkToSuspend(PID);
+    emit sendWorkToSuspend(PID);        //这个是自定义信号
 }
 
 void ProcessItem::on_btn_unsuspend_clicked()

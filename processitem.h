@@ -8,6 +8,7 @@ namespace Ui {
 class ProcessItem;
 }
 
+
 class ProcessItem : public QWidget
 {
     Q_OBJECT
@@ -22,7 +23,7 @@ public:
 
     QString getSuspendPID();
 signals:
-    void sendWorkToSuspend(QString);    //阻塞进程
+    void sendWorkToSuspend(QString);    //阻塞进程  信号 对应 receiveWorkToSuspend
     void sendSuspendToReady(QString);   //解除阻塞
 
 private slots:

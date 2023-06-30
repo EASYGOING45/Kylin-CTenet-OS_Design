@@ -10,6 +10,15 @@ ProcessManager::ProcessManager(QWidget *parent) :
     ui(new Ui::ProcessManager)
 {
     ui->setupUi(this);
+    this->setAutoFillBackground(true); // 这句要加上, 否则可能显示不出背景图.
+    QPalette palette = this->palette();
+    palette.setBrush(QPalette::Window,
+       QBrush(QPixmap(":/images/images/x2.jpg").scaled( // 缩放背景图.
+       this->size(),
+       Qt::IgnoreAspectRatio,
+       Qt::SmoothTransformation))); // 使用平滑的缩放方式
+    this->setPalette(palette); // 至此, 已给widget加上了背景图.
+
     enumProcess();
     connect(this,&ProcessManager::refreshProcTab,this,&ProcessManager::enumProcess);
     upRole();   //进程提权

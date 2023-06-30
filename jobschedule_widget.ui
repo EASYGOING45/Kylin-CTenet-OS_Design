@@ -231,19 +231,6 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;所需时间&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="Return_Btn">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>510</y>
-     <width>81</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>返回</string>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>

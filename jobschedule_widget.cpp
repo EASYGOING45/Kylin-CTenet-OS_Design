@@ -3,9 +3,10 @@
 #include<QString>
 #include<QMessageBox>
 #include<QTime>
+#include<QDebug>
 #include"jobschedule.h"
 
-jobSchedule job;
+jobSchedule job;        //类对象的前置声明
 
 int aturnaround = 0;    //平均周转时间
 float aweightedturnaround = 0;  //平均带权周转时间
@@ -261,12 +262,13 @@ void jobschedule_widget::HRN()
     }
     ui->textBrowser_2->append("平均周转时间："+QString::number(aturnaround / (1.0*job.getJobLength()))+
                               "  平均带权周转时间："+QString::number(aweightedturnaround / (1.0*job.getJobLength())));
-    job.initFlag();   //执行完后将flag标记都置为0
+    job.initFlag();   //执行完后将fla    eg标记都置为0
 }
 
 
 void jobschedule_widget::on_addJobBtn_clicked()
 {
+    qDebug()<<"点击添加按钮---------------";
     //添加作业
     QString QName = ui->lineName->text();
     QString QArrive = ui->lineArrive->text();
@@ -278,6 +280,7 @@ void jobschedule_widget::on_addJobBtn_clicked()
         displayJobs();
     }
     else
+
     {
         QMessageBox::information(this,"提示","作业名和服务时间不能为空");
     }
@@ -311,7 +314,3 @@ void jobschedule_widget::on_HRN_Btn_clicked()
     HRN();
 }
 
-void jobschedule_widget::on_Return_Btn_clicked()
-{
-
-}

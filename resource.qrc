@@ -11,5 +11,7 @@
         <file>images/back1.jpg</file>
         <file>images/back2.jpg</file>
         <file>images/back3.jpg</file>
+        <file>images/x1.jpg</file>
+        <file>images/x2.jpg</file>
     </qresource>
 </RCC>

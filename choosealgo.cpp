@@ -11,7 +11,7 @@ chooseAlgo::chooseAlgo(QWidget *parent) :
     this->setAutoFillBackground(true);  //确保背景图正确显示
     QPalette palette = this->palette();
     palette.setBrush(QPalette::Window,
-           QBrush(QPixmap(":/images/images/choose1.jpg").scaled( // 缩放背景图.
+           QBrush(QPixmap(":/images/images/x1.jpg").scaled( // 缩放背景图.
            this->size(),
            Qt::IgnoreAspectRatio,
            Qt::SmoothTransformation))); // 使用平滑的缩放方式

@@ -34,8 +34,6 @@ private slots:
 
     void on_HRN_Btn_clicked();
 
-    void on_Return_Btn_clicked();
-
 private:
     Ui::jobschedule_widget *ui;
 };

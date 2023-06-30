@@ -18,6 +18,7 @@ public:
 
 
     pcb_cal *jobHead;
+    bool isEmpty = true;    //标记是否为为空
 };
 
 #endif // JOBSCHEDULE_H

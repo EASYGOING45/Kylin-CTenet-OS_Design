@@ -30,7 +30,7 @@ void AddProcess::on_btn_add_clicked()
     int priority = ui->le_priority->text().toInt(); //将优先级化为整数
     int runtime = ui->le_runtime->text().toInt();
 
-    //向Widget传参
+    //向Widget传参 多窗口 跨进程传递信号
     emit sendPCB(PID,status,priority,runtime);
 }
 

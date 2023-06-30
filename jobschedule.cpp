@@ -1,5 +1,6 @@
 #include "jobschedule.h"
 #include<QDateTime>
+#include<QDebug>
 #include<QString>
 
 jobSchedule::jobSchedule()
@@ -7,6 +8,7 @@ jobSchedule::jobSchedule()
     //执行初始化操作
     this->jobHead = new pcb_cal;
     jobHead->next = nullptr;
+    this->isEmpty=true;
 }
 
 
@@ -30,22 +32,45 @@ int jobSchedule::getJobLength()
 //添加一个进程
 void jobSchedule::addJob(string name, int arrive, int service)
 {
-    pcb_cal *p=new pcb_cal;
-    p=jobHead->next;        //首元节点
-    while(p->next)
+    if(isEmpty)
     {
-        p=p->next;      //直至找到尾节点
+        pcb_cal *newNode=new pcb_cal;
+        newNode->next=nullptr;
+        newNode->name=name;
+        newNode->arrive=arrive;
+        newNode->service=service;
+        qDebug()<<"创建新进程成功，此时处于isEmpty=true的逻辑判断语句中";
+        this->jobHead->next=newNode;
+        this->isEmpty=false;
     }
+    else
+    {
+        pcb_cal *p=new pcb_cal;
+        p=jobHead->next;        //首元节点
+        if(p==nullptr)
+        {
+            qDebug()<<"p是nullptr";
+        }
+        while(p->next)
+        {
+            p=p->next;      //直至找到尾节点
+        }
 
-    pcb_cal *q = new pcb_cal;
-    q->next=nullptr;
-    q->name=name;
-    q->arrive=arrive;
-    q->service=service;
+        qDebug()<<"开始创建新进程q";
+        pcb_cal *q = new pcb_cal;
+        q->next=nullptr;
+        q->name=name;
+        q->arrive=arrive;
+        q->service=service;
+        if(q->service==service)
+        {
+            qDebug()<<"创建新进程q成功";
+        }
 
-    //尾插法
-    q->next = p->next;
-    p->next=q;
+        //尾插法
+        q->next = p->next;
+        p->next=q;
+    }
 }
 
 //随机获取一个进程

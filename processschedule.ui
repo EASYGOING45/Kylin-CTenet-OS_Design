@@ -29,7 +29,7 @@
     </font>
    </property>
    <property name="text">
-    <string>就绪队列</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#00ffff;&quot;&gt;就绪队列&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -274,7 +274,7 @@
     </font>
    </property>
    <property name="text">
-    <string>算法</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#55ffff;&quot;&gt;算法&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
